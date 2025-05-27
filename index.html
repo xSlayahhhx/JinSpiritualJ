@@ -1,495 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rajin 21-Day Shiva Fast & Prayer Tracker</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0e6d2 0%, #f8f4e5 100%);
-            margin: 0;
-            padding: 12px 10px 30px;
-            color: #2f2f2f;
-            line-height: 1.65;
-            user-select: none;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fffefc;
-            padding: 28px 30px 30px;
-            border-radius: 18px;
-            box-shadow: 0 12px 35px rgba(211, 138, 23, 0.3);
-            border: 2px solid #d67a12;
-            transition: box-shadow 0.4s ease;
-        }
-        .container:hover {
-            box-shadow: 0 18px 45px rgba(211, 138, 23, 0.45);
-        }
-        h1 {
-            color: #c85c00;
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: 2.3em;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            text-shadow: 1px 1px 3px #d67a12cc;
-        }
-        .subtitle {
-            text-align: center;
-            color: #8a8a8a;
-            margin-bottom: 28px;
-            font-size: 1.1em;
-            font-style: italic;
-            letter-spacing: 0.04em;
-        }
-        .countdown {
-            text-align: center;
-            font-size: 1.2em;
-            margin: 22px 0 30px;
-            padding: 14px 0;
-            background: #d35400;
-            color: #fff;
-            border-radius: 12px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            box-shadow: 0 3px 10px rgba(211, 84, 0, 0.7);
-            user-select: text;
-        }
-        .progress-container {
-            margin: 25px 0 20px;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 2px solid #d67a12;
-            box-shadow: inset 0 0 7px #d67a12cc;
-        }
-        .progress-bar {
-            height: 14px;
-            background: #f1e3c9;
-        }
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #27ae60, #2ecc71);
-            width: 0%;
-            transition: width 0.7s ease-in-out;
-            box-shadow: 0 0 8px #27ae60cc;
-        }
-        .day-info {
-            margin-top: 8px;
-            font-size: 0.92em;
-            color: #7a7a7a;
-            text-align: center;
-            font-weight: 600;
-        }
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 7px;
-            margin: 28px 0 28px;
-            user-select: none;
-        }
-        .calendar-day {
-            border: 1.5px solid #d8cda3;
-            padding: 12px 5px;
-            text-align: center;
-            border-radius: 12px;
-            background: #fcfaf6;
-            font-size: 0.95em;
-            position: relative;
-            cursor: pointer;
-            font-weight: 600;
-            color: #5e5e5e;
-            box-shadow: 0 2px 6px rgba(230, 210, 180, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
-        .calendar-day:hover:not(.future-day) {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(211, 138, 23, 0.6);
-            border-color: #d67a12;
-            color: #c85c00;
-            font-weight: 700;
-        }
-        .day-number {
-            font-weight: 700;
-            font-size: 1.1em;
-        }
-        .month-name {
-            font-size: 0.7em;
-            color: #8a8a8a;
-            margin-top: 2px;
-        }
-        .current-day {
-            background: linear-gradient(135deg, #d35400, #e67e22);
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 12px #e67e2211 inset;
-            border: none;
-            cursor: default;
-            user-select: text;
-        }
-        .completed-day {
-            background: #27ae60;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 3px 8px #27ae6011 inset;
-            border: none;
-            cursor: default;
-        }
-        .future-day {
-            opacity: 0.55;
-            cursor: default;
-            user-select: none;
-        }
-        #daily-content {
-            user-select: text;
-        }
-        #day-title {
-            font-weight: 700;
-            color: #2c3e50;
-            font-size: 1.35em;
-            margin-bottom: 8px;
-            text-align: center;
-            text-shadow: 1px 1px 2px #d67a12bb;
-        }
-        .mantra {
-            background: #e8f4f8;
-            padding: 14px 16px;
-            border-left: 5px solid #3498db;
-            margin: 12px 0 20px;
-            font-size: 1em;
-            line-height: 1.5;
-            font-style: italic;
-            color: #2b3e50;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px #3498db33;
-            user-select: text;
-        }
-        .quote {
-            font-style: italic;
-            color: #7f8c8d;
-            margin: 18px 0 28px;
-            padding: 12px 18px;
-            background: #faf9f7;
-            border-left: 5px solid #d35400;
-            border-radius: 0 6px 6px 0;
-            font-size: 0.95em;
-            box-shadow: 0 2px 8px #d3540033;
-            user-select: text;
-        }
-        button {
-            background: #e67e22;
-            color: white;
-            border: none;
-            padding: 16px 0;
-            border-radius: 14px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 17px;
-            margin-top: 20px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            box-shadow: 0 4px 15px #e67e2211;
-            transition: background-color 0.3s ease;
-            user-select: none;
-        }
-        button:hover {
-            background: #d35400;
-            box-shadow: 0 6px 22px #d3540022;
-        }
-        button:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            border-bottom: 1px dotted #d67a12;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 220px;
-            background-color: #d67a12dd;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 7px 12px;
-            position: absolute;
-            z-index: 10;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.25s;
-            font-size: 0.85em;
-            line-height: 1.2;
-            user-select: none;
-            pointer-events: none;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        /* Mantra chanting section */
-        #mantra-chant-section {
-            margin: 25px 0;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e1d9c8;
-            box-shadow: 0 3px 15px rgba(230, 126, 34, 0.1);
-        }
-        #mantra-select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1em;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid #d8cda3;
-            background: #fff;
-            color: #5e5e5e;
-        }
-        #mantra-text {
-            padding: 15px;
-            background: #f5f9fa;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-style: italic;
-            line-height: 1.6;
-            border-left: 4px solid #3498db;
-        }
-        #chant-counter {
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        #chant-button {
-            background: #3498db;
-            margin-top: 10px;
-        }
-        #chant-button:hover {
-            background: #2980b9;
-        }
-        #chant-message {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: 600;
-            color: #27ae60;
-            min-height: 20px;
-        }
-        #clear-btn {
-            background: #c0392b;
-            margin-top: 10px;
-        }
-        #clear-btn:hover {
-            background: #922b21;
-        }
-        /* Rudra Puja Checklist Styles */
-        .puja-checklist {
-            margin: 28px 0;
-            background: #fcfcfc;
-            padding: 22px 18px 20px;
-            border-radius: 14px;
-            border: 1.8px solid #e1d9c8;
-            box-shadow: 0 3px 15px #d67a1211;
-        }
-        .puja-checklist h2 {
-            color: #4b2e83;
-            margin-top: 20px;
-            font-size: 1.2em;
-            border-bottom: 1px solid #e1d9c8;
-            padding-bottom: 8px;
-        }
-        .puja-checklist h3 {
-            color: #4b2e83;
-            margin-top: 15px;
-            font-size: 1.1em;
-        }
-        .puja-checklist ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .puja-checklist li {
-            background: #fff;
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 5px solid #4b2e83;
-            display: flex;
-            align-items: center;
-        }
-        .puja-checklist input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.25);
-        }
-        /* Responsive */
-        @media (max-width: 400px) {
-            .container {
-                padding: 18px 16px 26px;
-            }
-            .calendar {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            button {
-                font-size: 16px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-        }
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#f0e6d2 0%,#f8f4e5 100%);margin:0;padding:12px 10px 30px;color:#2f2f2f;line-height:1.65;user-select:none}.container{max-width:600px;margin:0 auto;background:#fffefc;padding:28px 30px 30px;border-radius:18px;box-shadow:0 12px 35px rgba(211,138,23,0.3);border:2px solid #d67a12;transition:box-shadow 0.4s ease}.container:hover{box-shadow:0 18px 45px rgba(211,138,23,0.45)}h1{color:#c85c00;text-align:center;margin-bottom:8px;font-size:2.3em;font-weight:700;letter-spacing:1.2px;text-shadow:1px 1px 3px #d67a12cc}.subtitle{text-align:center;color:#8a8a8a;margin-bottom:28px;font-size:1.1em;font-style:italic}.countdown{text-align:center;font-size:1.2em;margin:22px 0 30px;padding:14px 0;background:#d35400;color:#fff;border-radius:12px;font-weight:700;letter-spacing:0.06em;box-shadow:0 3px 10px rgba(211,84,0,0.7);user-select:text}.progress-container{margin:25px 0 20px;border-radius:14px;overflow:hidden;border:2px solid #d67a12;box-shadow:inset 0 0 7px #d67a12cc}.progress-bar{height:14px;background:#f1e3c9}.progress{height:100%;background:linear-gradient(90deg,#27ae60,#2ecc71);width:0%;transition:width 0.7s ease-in-out;box-shadow:0 0 8px #27ae60cc}.day-info{margin-top:8px;font-size:0.92em;color:#7a7a7a;text-align:center;font-weight:600}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:28px 0 28px;user-select:none}.calendar-day{border:1.5px solid #d8cda3;padding:12px 5px;text-align:center;border-radius:12px;background:#fcfaf6;font-size:0.95em;position:relative;cursor:pointer;font-weight:600;color:#5e5e5e;box-shadow:0 2px 6px rgba(230,210,180,0.4);transition:transform 0.2s ease,box-shadow 0.3s ease}.calendar-day:hover:not(.future-day){transform:translateY(-4px);box-shadow:0 8px 15px rgba(211,138,23,0.6);border-color:#d67a12;color:#c85c00;font-weight:700}.day-number{font-weight:700;font-size:1.1em}.month-name{font-size:0.7em;color:#8a8a8a;margin-top:2px}.current-day{background:linear-gradient(135deg,#d35400,#e67e22);color:white;font-weight:700;box-shadow:0 4px 12px #e67e2211 inset;border:none;cursor:default;user-select:text}.completed-day{background:#27ae60;color:white;font-weight:700;box-shadow:0 3px 8px #27ae6011 inset;border:none;cursor:default}.future-day{opacity:0.55;cursor:default;user-select:none}#daily-content{user-select:text}#day-title{font-weight:700;color:#2c3e50;font-size:1.35em;margin-bottom:8px;text-align:center;text-shadow:1px 1px 2px #d67a12bb}.mantra{background:#e8f4f8;padding:14px 16px;border-left:5px solid #3498db;margin:12px 0 20px;font-size:1em;line-height:1.5;font-style:italic;color:#2b3e50;border-radius:6px;box-shadow:0 2px 6px #3498db33;user-select:text}.quote{font-style:italic;color:#7f8c8d;margin:18px 0 28px;padding:12px 18px;background:#faf9f7;border-left:5px solid #d35400;border-radius:0 6px 6px 0;font-size:0.95em;box-shadow:0 2px 8px #d3540033;user-select:text}button{background:#e67e22;color:white;border:none;padding:16px 0;border-radius:14px;cursor:pointer;width:100%;font-size:17px;margin-top:20px;font-weight:700;letter-spacing:0.08em;box-shadow:0 4px 15px #e67e2211;transition:background-color 0.3s ease;user-select:none}button:hover{background:#d35400;box-shadow:0 6px 22px #d3540022}button:disabled{background:#95a5a6;cursor:not-allowed;box-shadow:none}#mantra-chant-section{margin:25px 0;background:#f8f9fa;padding:20px;border-radius:12px;border:1px solid #e1d9c8;box-shadow:0 3px 15px rgba(230,126,34,0.1)}#mantra-select{width:100%;padding:12px;font-size:1em;margin-bottom:15px;border-radius:8px;border:1px solid #d8cda3;background:#fff;color:#5e5e5e}#mantra-text{padding:15px;background:#f5f9fa;border-radius:8px;margin-bottom:15px;font-style:italic;line-height:1.6;border-left:4px solid #3498db}#chant-counter{text-align:center;font-weight:600;margin-bottom:10px;color:#2c3e50}#chant-button{background:#3498db;margin-top:10px}#chant-button:hover{background:#2980b9}#chant-message{margin-top:15px;text-align:center;font-weight:600;color:#27ae60;min-height:20px}#clear-btn{background:#c0392b;margin-top:10px}#clear-btn:hover{background:#922b21}.puja-checklist{margin:28px 0;background:#fcfcfc;padding:22px 18px 20px;border-radius:14px;border:1.8px solid #e1d9c8;box-shadow:0 3px 15px #d67a1211}.puja-checklist h2{color:#4b2e83;margin-top:20px;font-size:1.2em;border-bottom:1px solid #e1d9c8;padding-bottom:8px}.puja-checklist h3{color:#4b2e83;margin-top:15px;font-size:1.1em}.puja-checklist ul{list-style-type:none;padding-left:0}.puja-checklist li{background:#fff;margin:8px 0;padding:10px;border-radius:5px;border-left:5px solid #4b2e83;display:flex;align-items:center}.puja-checklist input[type="checkbox"]{margin-right:10px;transform:scale(1.25)}@media (max-width:400px){.container{padding:18px 16px 26px}.calendar{grid-template-columns:repeat(4,1fr)}button{font-size:16px}h1{font-size:2em}}
     </style>
 </head>
 <body>
-    <div class="container" role="main" aria-label="Rajin 21-Day Shiva Fast and Prayer Tracker">
+    <div class="container">
         <h1>Rajin 21-Day Shiva Fast &amp; Prayer Tracker</h1>
         <div class="subtitle">May 27 - June 16, 2025 | May Lord Shiva bless your spiritual journey</div>
-        
-        <div class="countdown" id="countdown" aria-live="polite" aria-atomic="true" aria-relevant="text"></div>
-        
-        <div class="progress-container" aria-label="Fast progress">
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="21" aria-valuenow="0" id="progress-bar">
-                <div class="progress" id="progress"></div>
-            </div>
+        <div class="countdown" id="countdown"></div>
+        <div class="progress-container">
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
         </div>
-        
-        <div class="day-info" id="day-info" aria-live="polite"></div>
-        
-        <div class="calendar" id="calendar" aria-label="Rajin 21-day calendar with daily progress"></div>
-        
-        <div id="daily-content" aria-live="polite" aria-atomic="true">
+        <div class="day-info" id="day-info"></div>
+        <div class="calendar" id="calendar"></div>
+        <div id="daily-content">
             <h2 id="day-title">📿 Day 1 of 21 (May 27, 2025)</h2>
             <div class="mantra" id="mantra"></div>
             <div class="quote" id="quote"></div>
             
-            <!-- Rudra Puja Checklist -->
-            <div class="puja-checklist" id="puja-checklist">
-                <h2>🕉️ Rudra Puja Checklist</h2>
-                
+            <!-- Monday: Rudra Checklist -->
+            <div class="puja-checklist" id="monday-checklist" style="display: none;">
+                <h2>🕉️ Monday: Rudra Puja Checklist</h2>
                 <h3>🔹 Preparation</h3>
                 <ul>
-                    <li><input type="checkbox" id="prep1"> Take a bath and wear clean clothes</li>
-                    <li><input type="checkbox" id="prep2"> Clean the altar and place a cloth or mat</li>
-                    <li><input type="checkbox" id="prep3"> Set up Shiva Linga or Rudra photo</li>
-                    <li><input type="checkbox" id="prep4"> Face East or North</li>
+                    <li><input type="checkbox" id="monday-prep1"> Take a bath and wear clean clothes</li>
+                    <li><input type="checkbox" id="monday-prep2"> Clean the altar and place a red cloth</li>
+                    <li><input type="checkbox" id="monday-prep3"> Set up Shiva Linga or Rudra photo</li>
+                    <li><input type="checkbox" id="monday-prep4"> Face East or North</li>
                 </ul>
-
                 <h3>🔹 Items You'll Use</h3>
                 <ul>
-                    <li><input type="checkbox" id="items1"> Clean water or Ganga Jal</li>
-                    <li><input type="checkbox" id="items2"> White flowers</li>
-                    <li><input type="checkbox" id="items3"> Bananas or any fruit</li>
-                    <li><input type="checkbox" id="items4"> Ghee lamp (diya)</li>
-                    <li><input type="checkbox" id="items5"> Incense sticks</li>
-                    <li><input type="checkbox" id="items6"> Camphor (if available)</li>
-                    <li><input type="checkbox" id="items7"> Rudraksha mala or chant counter</li>
+                    <li><input type="checkbox" id="monday-items1"> Clean water or Ganga Jal</li>
+                    <li><input type="checkbox" id="monday-items2"> White flowers (for Shiva)</li>
+                    <li><input type="checkbox" id="monday-items3"> Red flowers (for Ganesh)</li>
+                    <li><input type="checkbox" id="monday-items4"> Bananas or any fruit</li>
+                    <li><input type="checkbox" id="monday-items5"> Ghee lamp (diya)</li>
+                    <li><input type="checkbox" id="monday-items6"> Incense sticks</li>
+                    <li><input type="checkbox" id="monday-items7"> Camphor (if available)</li>
+                    <li><input type="checkbox" id="monday-items8"> Rudraksha mala or chant counter</li>
                 </ul>
-
                 <h3>🔹 Puja Steps</h3>
                 <h4>🧘‍♀️ 1. Dhyana</h4>
                 <ul>
-                    <li><input type="checkbox" id="step1"> Sit quietly and light the diya and incense</li>
-                    <li><input type="checkbox" id="step2"> Chant "Om Rudraya Namaha" 3 times</li>
+                    <li><input type="checkbox" id="monday-step1"> Sit quietly and light the diya and incense</li>
+                    <li><input type="checkbox" id="monday-step2"> Chant "Om Gan Ganapataye Namaha" 3 times (for Ganesh)</li>
+                    <li><input type="checkbox" id="monday-step3"> Chant "Om Rudraya Namaha" 3 times</li>
                 </ul>
-
                 <h4>🌊 2. Abhishekam</h4>
                 <ul>
-                    <li><input type="checkbox" id="step3"> Pour water over the Linga or in front of the photo</li>
-                    <li><input type="checkbox" id="step4"> (Optional) Offer Panchamrit</li>
-                    <li><input type="checkbox" id="step5"> Rinse again with water</li>
+                    <li><input type="checkbox" id="monday-step4"> Pour water over the Linga or in front of the photo</li>
+                    <li><input type="checkbox" id="monday-step5"> (Optional) Offer Panchamrit</li>
+                    <li><input type="checkbox" id="monday-step6"> Rinse again with water</li>
                 </ul>
-
                 <h4>🌼 3. Offerings</h4>
                 <ul>
-                    <li><input type="checkbox" id="step6"> Offer white flowers</li>
-                    <li><input type="checkbox" id="step7"> Offer banana or fruit as prasad</li>
-                    <li><input type="checkbox" id="step8"> Light incense and wave it gently</li>
-                    <li><input type="checkbox" id="step9"> Place the ghee lamp near the altar</li>
+                    <li><input type="checkbox" id="monday-step7"> Offer red flowers to Ganesh first</li>
+                    <li><input type="checkbox" id="monday-step8"> Offer white flowers to Shiva</li>
+                    <li><input type="checkbox" id="monday-step9"> Offer banana or fruit as prasad</li>
+                    <li><input type="checkbox" id="monday-step10"> Light incense and wave it gently</li>
+                    <li><input type="checkbox" id="monday-step11"> Place the ghee lamp near the altar</li>
                 </ul>
-
                 <h4>🔁 4. Chanting</h4>
                 <ul>
-                    <li><input type="checkbox" id="step10"> Chant "Om Rudraya Namaha" 108 times using mala or counter</li>
+                    <li><input type="checkbox" id="monday-step12"> Chant "Om Rudraya Namaha" 108 times using mala or counter</li>
                 </ul>
-
                 <h4>🔥 5. Aarti</h4>
                 <ul>
-                    <li><input type="checkbox" id="step11"> Light camphor and wave it in a circle (if available)</li>
-                    <li><input type="checkbox" id="step12"> Say a prayer or sing "Om Jai Shiv Omkara"</li>
+                    <li><input type="checkbox" id="monday-step13"> Light camphor and wave it in a circle (if available)</li>
+                    <li><input type="checkbox" id="monday-step14"> Say a prayer or sing "Om Jai Shiv Omkara"</li>
                 </ul>
-
                 <h4>🤲 6. Closing</h4>
                 <ul>
-                    <li><input type="checkbox" id="step13"> Offer final namaskar (bow or touch the altar)</li>
-                    <li><input type="checkbox" id="step14"> Sit silently for a minute in gratitude</li>
-                    <li><input type="checkbox" id="step15"> Eat or share the banana prasad</li>
+                    <li><input type="checkbox" id="monday-step15"> Offer final namaskar (bow or touch the altar)</li>
+                    <li><input type="checkbox" id="monday-step16"> Sit silently for a minute in gratitude</li>
+                    <li><input type="checkbox" id="monday-step17"> Eat or share the banana prasad</li>
                 </ul>
             </div>
-
-            <!-- Mantra Chanting Section -->
+            
+            <!-- Regular Rudra Puja Checklist -->
+            <div class="puja-checklist" id="puja-checklist">
+                <h2>🕉️ Rudra Puja Checklist</h2>
+                <h3>🔹 Preparation</h3>
+                <ul><li><input type="checkbox" id="prep1"> Take a bath and wear clean clothes</li><li><input type="checkbox" id="prep2"> Clean the altar and place a cloth or mat</li><li><input type="checkbox" id="prep3"> Set up Shiva Linga or Rudra photo</li><li><input type="checkbox" id="prep4"> Face East or North</li></ul>
+                <h3>🔹 Items You'll Use</h3>
+                <ul><li><input type="checkbox" id="items1"> Clean water or Ganga Jal</li><li><input type="checkbox" id="items2"> White flowers</li><li><input type="checkbox" id="items3"> Red flowers (for Ganesh)</li><li><input type="checkbox" id="items4"> Bananas or any fruit</li><li><input type="checkbox" id="items5"> Ghee lamp (diya)</li><li><input type="checkbox" id="items6"> Incense sticks</li><li><input type="checkbox" id="items7"> Camphor (if available)</li><li><input type="checkbox" id="items8"> Rudraksha mala or chant counter</li></ul>
+                <h3>🔹 Puja Steps</h3>
+                <h4>🧘‍♀️ 1. Dhyana</h4>
+                <ul><li><input type="checkbox" id="step1"> Sit quietly and light the diya and incense</li><li><input type="checkbox" id="step2"> Chant "Om Gan Ganapataye Namaha" 3 times (for Ganesh)</li><li><input type="checkbox" id="step3"> Chant "Om Rudraya Namaha" 3 times</li></ul>
+                <h4>🌊 2. Abhishekam</h4>
+                <ul><li><input type="checkbox" id="step4"> Pour water over the Linga or in front of the photo</li><li><input type="checkbox" id="step5"> (Optional) Offer Panchamrit</li><li><input type="checkbox" id="step6"> Rinse again with water</li></ul>
+                <h4>🌼 3. Offerings</h4>
+                <ul><li><input type="checkbox" id="step7"> Offer red flowers to Ganesh first</li><li><input type="checkbox" id="step8"> Offer white flowers to Shiva</li><li><input type="checkbox" id="step9"> Offer banana or fruit as prasad</li><li><input type="checkbox" id="step10"> Light incense and wave it gently</li><li><input type="checkbox" id="step11"> Place the ghee lamp near the altar</li></ul>
+                <h4>🔁 4. Chanting</h4>
+                <ul><li><input type="checkbox" id="step12"> Chant "Om Rudraya Namaha" 108 times using mala or counter</li></ul>
+                <h4>🔥 5. Aarti</h4>
+                <ul><li><input type="checkbox" id="step13"> Light camphor and wave it in a circle (if available)</li><li><input type="checkbox" id="step14"> Say a prayer or sing "Om Jai Shiv Omkara"</li></ul>
+                <h4>🤲 6. Closing</h4>
+                <ul><li><input type="checkbox" id="step15"> Offer final namaskar (bow or touch the altar)</li><li><input type="checkbox" id="step16"> Sit silently for a minute in gratitude</li><li><input type="checkbox" id="step17"> Eat or share the banana prasad</li></ul>
+            </div>
             <div id="mantra-chant-section">
                 <h3>Chant Your Mantra (108 times)</h3>
-                <select id="mantra-select">
-                    <option value="" disabled selected>Select a mantra</option>
-                </select>
+                <select id="mantra-select"><option value="" disabled selected>Select a mantra</option></select>
                 <div id="mantra-text"></div>
                 <div id="chant-counter">Chants: 0 / 108</div>
                 <button id="chant-button" disabled>Chant +1</button>
                 <div id="chant-message"></div>
             </div>
-
             <button id="submit-btn">✅ Submit Today's Progress</button>
             <button id="clear-btn">🧹 Clear Today's Data</button>
         </div>
     </div>
 
     <script>
-        // === CONFIG ===
-        const startDate = new Date('May 27, 2025');
-        const durationDays = 21;
-        const targetDate = new Date('June 16, 2025 00:00:00');
-
-        // Mantras list with chant counts set to 108
+        // Config
+        const startDate = new Date('May 27, 2025'), durationDays = 21, targetDate = new Date('June 16, 2025 00:00:00');
         const mantras = [
-            {
-                id: "mahamrityunjaya",
-                name: "Mahamrityunjaya Mantra",
-                text: "Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat",
-                count: 108,
-                meaning: "The great death-conquering mantra that grants longevity and immortality"
-            },
-            {
-                id: "rudra",
-                name: "Rudra Mantra",
-                text: "Om Namo Bhagavate Rudraya",
-                count: 108,
-                meaning: "Salutations to Lord Rudra, the fierce aspect of Shiva"
-            },
-            {
-                id: "shivaya",
-                name: "Om Namah Shivaya",
-                text: "Om Namah Shivaya",
-                count: 108,
-                meaning: "The five-syllable mantra meaning 'I bow to Shiva'"
-            },
-            {
-                id: "shivastotra",
-                name: "Shiva Stotra",
-                text: "Namah Shivaya Shantaya Karunakaranaya Sarvajna Sarveshvaraya Rudraya Nilakanthaya",
-                count: 108,
-                meaning: "Hymn praising Shiva's peaceful, compassionate and all-knowing nature"
-            },
-            {
-                id: "shivagayatri",
-                name: "Shiva Gayatri",
-                text: "Om Tatpurushaya Vidmahe Mahadevaya Dhimahi Tanno Shiva Prachodayat",
-                count: 108,
-                meaning: "Gayatri mantra for Shiva, the great divine purusha"
-            }
+            {id:"mahamrityunjaya",name:"Mahamrityunjaya Mantra",text:"Om Tryambakam Yajamahe Sugandhim Pushtivardhanam Urvarukamiva Bandhanan Mrityor Mukshiya Maamritat",count:108,meaning:"The great death-conquering mantra that grants longevity and immortality"},
+            {id:"rudra",name:"Rudra Mantra",text:"Om Namo Bhagavate Rudraya",count:108,meaning:"Salutations to Lord Rudra, the fierce aspect of Shiva"},
+            {id:"shivaya",name:"Om Namah Shivaya",text:"Om Namah Shivaya",count:108,meaning:"The five-syllable mantra meaning 'I bow to Shiva'"},
+            {id:"shivastotra",name:"Shiva Stotra",text:"Namah Shivaya Shantaya Karunakaranaya Sarvajna Sarveshvaraya Rudraya Nilakanthaya",count:108,meaning:"Hymn praising Shiva's peaceful, compassionate and all-knowing nature"},
+            {id:"shivagayatri",name:"Shiva Gayatri",text:"Om Tatpurushaya Vidmahe Mahadevaya Dhimahi Tanno Shiva Prachodayat",count:108,meaning:"Gayatri mantra for Shiva, the great divine purusha"}
         ];
-
-        // Inspirational quotes
         const quotes = [
             "Shiva is the infinite, the all-pervading, the eternal.",
             "Meditate on Shiva, the great transformer.",
@@ -502,387 +138,245 @@
             "In Shiva's dance, the universe is created, preserved, and dissolved.",
             "Shiva's third eye represents the eye of wisdom and insight."
         ];
+        const pujaChecklistIds = ['prep1','prep2','prep3','prep4','items1','items2','items3','items4','items5','items6','items7','items8','step1','step2','step3','step4','step5','step6','step7','step8','step9','step10','step11','step12','step13','step14','step15','step16','step17'];
+        const mondayChecklistIds = ['monday-prep1','monday-prep2','monday-prep3','monday-prep4','monday-items1','monday-items2','monday-items3','monday-items4','monday-items5','monday-items6','monday-items7','monday-items8','monday-step1','monday-step2','monday-step3','monday-step4','monday-step5','monday-step6','monday-step7','monday-step8','monday-step9','monday-step10','monday-step11','monday-step12','monday-step13','monday-step14','monday-step15','monday-step16','monday-step17'];
+        const STORAGE_KEY_PREFIX = 'shiva-fast-day-', CHANT_STORAGE_KEY = 'shiva-fast-chant-done';
 
-        // === DOM ELEMENTS ===
-        const calendarEl = document.getElementById('calendar');
-        const dayTitleEl = document.getElementById('day-title');
-        const mantraEl = document.getElementById('mantra');
-        const quoteEl = document.getElementById('quote');
-        const countdownEl = document.getElementById('countdown');
-        const progressEl = document.getElementById('progress');
-        const progressBarEl = document.getElementById('progress-bar');
-        const dayInfoEl = document.getElementById('day-info');
-        
-        // Puja checklist IDs
-        const pujaChecklistIds = [
-            'prep1', 'prep2', 'prep3', 'prep4',
-            'items1', 'items2', 'items3', 'items4', 'items5', 'items6', 'items7',
-            'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7',
-            'step8', 'step9', 'step10', 'step11', 'step12', 'step13', 'step14', 'step15'
-        ];
+        // DOM Elements
+        const els = {};
+        ['calendar','day-title','mantra','quote','countdown','progress','day-info','mantra-select','mantra-text','chant-counter','chant-button','chant-message','submit-btn','clear-btn','puja-checklist','monday-checklist'].forEach(id => els[id] = document.getElementById(id));
 
-        // Mantra chanting elements
-        const mantraSelect = document.getElementById('mantra-select');
-        const mantraTextEl = document.getElementById('mantra-text');
-        const chantCounterEl = document.getElementById('chant-counter');
-        const chantButton = document.getElementById('chant-button');
-        const chantMessage = document.getElementById('chant-message');
-
-        const submitBtn = document.getElementById('submit-btn');
-        const clearBtn = document.getElementById('clear-btn');
-
-        // === STATE ===
-        let today = new Date();
-        today.setHours(0,0,0,0);
-
-        let currentDay = Math.floor((today - startDate) / (1000*60*60*24)) + 1;
-        if (currentDay < 1) currentDay = 1;
-        if (currentDay > durationDays) currentDay = durationDays;
-
-        // LocalStorage keys
-        const STORAGE_KEY_PREFIX = 'shiva-fast-day-';
-        const CHANT_STORAGE_KEY = 'shiva-fast-chant-done';
-
-        // Load stored data for current day
+        // State
+        let today = new Date(); today.setHours(0,0,0,0);
+        let currentDay = Math.min(Math.max(Math.floor((today - startDate)/(1000*60*60*24)) + 1, 1), durationDays);
         let dailyData = loadDayData(currentDay);
-
-        // Load done mantras
         let doneMantras = JSON.parse(localStorage.getItem(CHANT_STORAGE_KEY)) || {};
 
         // Initialize
         init();
 
         function init() {
-            renderCalendar();
-            renderDayContent(currentDay);
-            initPujaChecklist();
-            initMantraSelect();
-            updateProgress();
-            updateCountdown();
-            setupEventListeners();
-        }
-
-        // === FUNCTIONS ===
-
-        // Render calendar with actual dates from May 27 to June 16
-        function renderCalendar() {
-            calendarEl.innerHTML = '';
+            renderCalendar(); renderDayContent(currentDay); initPujaChecklist(); initMantraSelect(); updateProgress(); updateCountdown();
+            setupEventListeners(); setInterval(updateCountdown, 1000);
             
-            for(let d=1; d<=durationDays; d++) {
-                const dayEl = document.createElement('div');
-                dayEl.classList.add('calendar-day');
-                
-                // Calculate the date for this day
-                const dayDate = new Date(startDate);
-                dayDate.setDate(startDate.getDate() + d - 1);
-                
-                // Get the date (27, 28, etc.) and weekday
-                const dateNum = dayDate.getDate();
-                const weekday = dayDate.toLocaleDateString('en-US', { weekday: 'short' });
-                const month = dayDate.toLocaleDateString('en-US', { month: 'short' });
-                
-                dayEl.innerHTML = `<div class="day-number">${dateNum}</div>
-                                  <div style="font-size:0.7em;margin-top:2px">${weekday}</div>
-                                  <div class="month-name">${d <= 5 ? 'May' : 'June'}</div>`;
-                
-                if(d < currentDay) {
-                    dayEl.classList.add('completed-day');
-                } else if(d === currentDay) {
-                    dayEl.classList.add('current-day');
-                } else {
-                    dayEl.classList.add('future-day');
-                }
-                
-                // Click handler to view past days
-                dayEl.addEventListener('click', () => {
-                    if(d <= currentDay) {
-                        showDay(d);
-                    }
-                });
-                
-                calendarEl.appendChild(dayEl);
+            // Show Monday checklist if today is Monday
+            const dayDate = new Date(startDate);
+            dayDate.setDate(startDate.getDate() + currentDay - 1);
+            if(dayDate.getDay() === 1) { // 1 = Monday
+                els['puja-checklist'].style.display = 'none';
+                els['monday-checklist'].style.display = 'block';
+            } else {
+                els['puja-checklist'].style.display = 'block';
+                els['monday-checklist'].style.display = 'none';
             }
         }
 
-        // Render the mantra and quote for the day with full date
-        function renderDayContent(day) {
-            const dayDate = new Date(startDate);
-            dayDate.setDate(startDate.getDate() + day - 1);
-            
-            const formattedDate = dayDate.toLocaleDateString('en-US', { 
-                month: 'long', 
-                day: 'numeric', 
-                year: 'numeric' 
-            });
-            
-            dayTitleEl.textContent = `📿 Day ${day} of ${durationDays} (${formattedDate})`;
-            
-            // Use the day's index to select mantra and quote
-            const mantra = mantras[day % mantras.length];
-            mantraEl.textContent = mantra ? mantra.text : '';
-            
-            const quote = quotes[day % quotes.length];
-            quoteEl.textContent = quote;
+        function renderCalendar() {
+            els.calendar.innerHTML = '';
+            for(let d=1; d<=durationDays; d++) {
+                const dayDate = new Date(startDate); dayDate.setDate(startDate.getDate() + d - 1);
+                const dayEl = document.createElement('div');
+                dayEl.className = `calendar-day ${d < currentDay ? 'completed-day' : d === currentDay ? 'current-day' : 'future-day'}`;
+                dayEl.innerHTML = `<div class="day-number">${dayDate.getDate()}</div><div style="font-size:0.7em;margin-top:2px">${dayDate.toLocaleDateString('en-US',{weekday:'short'})}</div><div class="month-name">${d<=5?'May':'June'}</div>`;
+                if(d <= currentDay) dayEl.addEventListener('click', () => showDay(d));
+                els.calendar.appendChild(dayEl);
+            }
         }
 
-        // Initialize puja checklist from stored data or clear
+        function renderDayContent(day) {
+            const dayDate = new Date(startDate); dayDate.setDate(startDate.getDate() + day - 1);
+            els['day-title'].textContent = `📿 Day ${day} of ${durationDays} (${dayDate.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})})`;
+            els.mantra.textContent = mantras[day % mantras.length].text;
+            els.quote.textContent = quotes[day % quotes.length];
+            
+            // Show appropriate checklist based on day of week
+            if(dayDate.getDay() === 1) { // 1 = Monday
+                els['puja-checklist'].style.display = 'none';
+                els['monday-checklist'].style.display = 'block';
+            } else {
+                els['puja-checklist'].style.display = 'block';
+                els['monday-checklist'].style.display = 'none';
+            }
+        }
+
         function initPujaChecklist() {
+            // Initialize regular checklist
             pujaChecklistIds.forEach(id => {
                 const el = document.getElementById(id);
-                if (dailyData.pujaChecklist && dailyData.pujaChecklist[id] !== undefined) {
-                    el.checked = dailyData.pujaChecklist[id];
-                } else {
-                    el.checked = false;
+                if(el) {
+                    el.checked = dailyData.pujaChecklist ? dailyData.pujaChecklist[id] : false;
+                    el.addEventListener('change', () => {
+                        dailyData.pujaChecklist = dailyData.pujaChecklist || {};
+                        dailyData.pujaChecklist[id] = el.checked;
+                        saveDayData(currentDay, dailyData);
+                        updateProgress();
+                    });
+                }
+            });
+            
+            // Initialize Monday checklist
+            mondayChecklistIds.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.checked = dailyData.mondayChecklist ? dailyData.mondayChecklist[id] : false;
+                    el.addEventListener('change', () => {
+                        dailyData.mondayChecklist = dailyData.mondayChecklist || {};
+                        dailyData.mondayChecklist[id] = el.checked;
+                        saveDayData(currentDay, dailyData);
+                        updateProgress();
+                    });
                 }
             });
         }
 
-        // Initialize mantra dropdown with done mantras crossed out
         function initMantraSelect() {
-            mantraSelect.innerHTML = '<option value="" disabled selected>Select a mantra</option>';
-            
+            els['mantra-select'].innerHTML = '<option value="" disabled selected>Select a mantra</option>';
             mantras.forEach(m => {
                 const option = document.createElement('option');
-                option.value = m.id;
-                option.textContent = m.name;
-                
-                if(doneMantras[m.id]) {
-                    option.disabled = true;
-                    option.classList.add('completed');
-                    option.textContent += ' (completed)';
-                }
-                
-                mantraSelect.appendChild(option);
+                option.value = m.id; option.textContent = m.name + (doneMantras[m.id] ? ' (completed)' : '');
+                if(doneMantras[m.id]) option.disabled = true;
+                els['mantra-select'].appendChild(option);
             });
-            
-            // If there's saved selection for today, restore it
             if(dailyData.chant && dailyData.chant.mantraId && !doneMantras[dailyData.chant.mantraId]) {
-                mantraSelect.value = dailyData.chant.mantraId;
+                els['mantra-select'].value = dailyData.chant.mantraId;
                 updateMantraText(dailyData.chant.mantraId);
-                chantCounterEl.textContent = `Chants: ${dailyData.chant.count} / 108`;
-                chantButton.disabled = false;
+                els['chant-counter'].textContent = `Chants: ${dailyData.chant.count} / 108`;
+                els['chant-button'].disabled = false;
             } else {
-                // No selection or mantra done
-                mantraTextEl.textContent = '';
-                chantCounterEl.textContent = 'Chants: 0 / 108';
-                chantButton.disabled = true;
+                els['mantra-text'].textContent = '';
+                els['chant-counter'].textContent = 'Chants: 0 / 108';
+                els['chant-button'].disabled = true;
             }
-            
-            chantMessage.textContent = '';
+            els['chant-message'].textContent = '';
         }
 
-        // Update mantra text display
         function updateMantraText(id) {
             const mantra = mantras.find(m => m.id === id);
-            if (mantra) {
-                mantraTextEl.textContent = `${mantra.text}\n\nMeaning: ${mantra.meaning}`;
-            } else {
-                mantraTextEl.textContent = '';
-            }
+            els['mantra-text'].textContent = mantra ? `${mantra.text}\n\nMeaning: ${mantra.meaning}` : '';
         }
 
-        // Setup event listeners
         function setupEventListeners() {
-            // Puja checklist checkboxes save
-            pujaChecklistIds.forEach(id => {
-                document.getElementById(id).addEventListener('change', () => {
-                    dailyData.pujaChecklist = dailyData.pujaChecklist || {};
-                    dailyData.pujaChecklist[id] = document.getElementById(id).checked;
-                    saveDayData(currentDay, dailyData);
-                    updateProgress();
-                });
-            });
-
-            // Mantra selection change
-            mantraSelect.addEventListener('change', () => {
-                const selectedId = mantraSelect.value;
-                if(doneMantras[selectedId]) {
-                    chantButton.disabled = true;
-                    mantraTextEl.textContent = '';
-                    chantCounterEl.textContent = 'Chants: 0 / 108';
-                    return;
-                }
-                
+            els['mantra-select'].addEventListener('change', () => {
+                const selectedId = els['mantra-select'].value;
+                if(doneMantras[selectedId]) return;
                 updateMantraText(selectedId);
-                chantCounterEl.textContent = 'Chants: 0 / 108';
-                chantButton.disabled = false;
-                chantMessage.textContent = '';
-
-                // Reset chant count for new mantra selection
+                els['chant-counter'].textContent = 'Chants: 0 / 108';
+                els['chant-button'].disabled = false;
+                els['chant-message'].textContent = '';
                 dailyData.chant = {mantraId: selectedId, count: 0};
                 saveDayData(currentDay, dailyData);
             });
 
-            // Chant button click
-            chantButton.addEventListener('click', () => {
+            els['chant-button'].addEventListener('click', () => {
                 if(!dailyData.chant) return;
-                
                 dailyData.chant.count = (dailyData.chant.count || 0) + 1;
                 saveDayData(currentDay, dailyData);
-                
-                chantCounterEl.textContent = `Chants: ${dailyData.chant.count} / 108`;
-                
+                els['chant-counter'].textContent = `Chants: ${dailyData.chant.count} / 108`;
                 if(dailyData.chant.count >= 108) {
-                    const mantraName = getMantraName(dailyData.chant.mantraId);
-                    chantMessage.textContent = `Mantra "${mantraName}" completed!`;
-                    chantButton.disabled = true;
-
-                    // Mark mantra done and update dropdown
+                    els['chant-message'].textContent = `Mantra "${mantras.find(m => m.id === dailyData.chant.mantraId).name}" completed!`;
+                    els['chant-button'].disabled = true;
                     doneMantras[dailyData.chant.mantraId] = true;
                     localStorage.setItem(CHANT_STORAGE_KEY, JSON.stringify(doneMantras));
+                    document.getElementById('step12').checked = true;
+                    document.getElementById('monday-step12').checked = true;
+                    dailyData.pujaChecklist = dailyData.pujaChecklist || {};
+                    dailyData.pujaChecklist['step12'] = true;
+                    dailyData.mondayChecklist = dailyData.mondayChecklist || {};
+                    dailyData.mondayChecklist['monday-step12'] = true;
+                    saveDayData(currentDay, dailyData);
+                    updateProgress();
                     initMantraSelect();
-
-                    // Also check the chanting step in puja checklist automatically
-                    const chantingCheckbox = document.getElementById('step10');
-                    if (chantingCheckbox) {
-                        chantingCheckbox.checked = true;
-                        dailyData.pujaChecklist = dailyData.pujaChecklist || {};
-                        dailyData.pujaChecklist['step10'] = true;
-                        saveDayData(currentDay, dailyData);
-                        updateProgress();
-                    }
-                } else {
-                    chantMessage.textContent = '';
                 }
             });
 
-            // Submit button
-            submitBtn.addEventListener('click', () => {
-                // Check if all checklist items are completed
-                const allChecked = pujaChecklistIds.every(id => {
-                    return dailyData.pujaChecklist && dailyData.pujaChecklist[id];
-                });
+            els['submit-btn'].addEventListener('click', () => {
+                const dayDate = new Date(startDate);
+                dayDate.setDate(startDate.getDate() + currentDay - 1);
+                const isMonday = dayDate.getDay() === 1;
                 
-                if (!allChecked) {
-                    alert('Please complete all puja steps before submitting.');
-                    return;
+                let allCompleted = true;
+                if(isMonday) {
+                    allCompleted = mondayChecklistIds.every(id => dailyData.mondayChecklist && dailyData.mondayChecklist[id]);
+                } else {
+                    allCompleted = pujaChecklistIds.every(id => dailyData.pujaChecklist && dailyData.pujaChecklist[id]);
                 }
                 
-                // Mark day as completed
+                if (!allCompleted) {
+                    alert('Please complete all puja steps before submitting.'); return;
+                }
                 if (!isDayCompleted(currentDay)) {
                     markDayCompleted(currentDay);
-                    updateProgress();
-                    renderCalendar();
-                    
-                    // Move to next day if available
+                    updateProgress(); renderCalendar();
                     if (currentDay < durationDays) {
-                        currentDay++;
-                        showDay(currentDay);
+                        currentDay++; showDay(currentDay);
                         alert('Great progress! Moving to day ' + currentDay);
-                    } else {
-                        alert('Congratulations! You have completed all 21 days!');
-                    }
-                } else {
-                    alert('This day is already marked as complete.');
-                }
+                    } else alert('Congratulations! You have completed all 21 days!');
+                } else alert('This day is already marked as complete.');
             });
 
-            // Clear today's data
-            clearBtn.addEventListener('click', () => {
-                if(confirm('Are you sure you want to clear all data for today? This will reset your puja checklist and chanting progress.')) {
-                    clearDayData(currentDay);
-                    dailyData = {};
+            els['clear-btn'].addEventListener('click', () => {
+                if(confirm('Clear all data for today?')) {
+                    clearDayData(currentDay); dailyData = {};
                     doneMantras = JSON.parse(localStorage.getItem(CHANT_STORAGE_KEY)) || {};
-                    renderCalendar();
-                    renderDayContent(currentDay);
-                    initPujaChecklist();
-                    initMantraSelect();
-                    updateProgress();
-                    chantMessage.textContent = '';
+                    renderCalendar(); renderDayContent(currentDay);
+                    initPujaChecklist(); initMantraSelect(); updateProgress();
+                    els['chant-message'].textContent = '';
                 }
             });
         }
 
-        // Check if a day is completed
         function isDayCompleted(day) {
             const dayData = loadDayData(day);
-            return pujaChecklistIds.every(id => dayData.pujaChecklist && dayData.pujaChecklist[id]);
+            const dayDate = new Date(startDate);
+            dayDate.setDate(startDate.getDate() + day - 1);
+            
+            if(dayDate.getDay() === 1) { // Monday
+                return mondayChecklistIds.every(id => dayData.mondayChecklist && dayData.mondayChecklist[id]);
+            } else {
+                return pujaChecklistIds.every(id => dayData.pujaChecklist && dayData.pujaChecklist[id]);
+            }
         }
 
-        // Mark a day as completed
         function markDayCompleted(day) {
             const dayData = loadDayData(day);
-            pujaChecklistIds.forEach(id => {
-                dayData.pujaChecklist = dayData.pujaChecklist || {};
-                dayData.pujaChecklist[id] = true;
-            });
+            const dayDate = new Date(startDate);
+            dayDate.setDate(startDate.getDate() + day - 1);
+            
+            if(dayDate.getDay() === 1) { // Monday
+                mondayChecklistIds.forEach(id => dayData.mondayChecklist = {...(dayData.mondayChecklist || {}), [id]: true});
+            } else {
+                pujaChecklistIds.forEach(id => dayData.pujaChecklist = {...(dayData.pujaChecklist || {}), [id]: true});
+            }
             saveDayData(day, dayData);
         }
 
-        function getMantraName(id) {
-            const mantra = mantras.find(m => m.id === id);
-            return mantra ? mantra.name : '';
-        }
+        function saveDayData(day, data) { localStorage.setItem(STORAGE_KEY_PREFIX + day, JSON.stringify(data)); }
+        function loadDayData(day) { return JSON.parse(localStorage.getItem(STORAGE_KEY_PREFIX + day)) || {}; }
+        function clearDayData(day) { localStorage.removeItem(STORAGE_KEY_PREFIX + day); }
 
-        // Save day data to localStorage
-        function saveDayData(day, data) {
-            localStorage.setItem(STORAGE_KEY_PREFIX + day, JSON.stringify(data));
-        }
-
-        // Load day data from localStorage
-        function loadDayData(day) {
-            const d = localStorage.getItem(STORAGE_KEY_PREFIX + day);
-            return d ? JSON.parse(d) : {};
-        }
-
-        // Clear day data
-        function clearDayData(day) {
-            localStorage.removeItem(STORAGE_KEY_PREFIX + day);
-        }
-
-        // Show a specific day's content
         function showDay(day) {
-            currentDay = day;
-            dailyData = loadDayData(currentDay);
-            
-            renderDayContent(currentDay);
-            initPujaChecklist();
-            initMantraSelect();
-            
-            // Disable submit button if already completed
-            submitBtn.disabled = isDayCompleted(currentDay);
-            
-            renderCalendar();
-            updateProgress();
+            currentDay = day; dailyData = loadDayData(currentDay);
+            renderDayContent(currentDay); initPujaChecklist(); initMantraSelect();
+            els['submit-btn'].disabled = isDayCompleted(currentDay);
+            renderCalendar(); updateProgress();
         }
 
-        // Update progress bar and day info
         function updateProgress() {
             let completedDays = 0;
-            for(let d=1; d<=durationDays; d++) {
-                if(isDayCompleted(d)) {
-                    completedDays++;
-                }
-            }
-            
-            const percent = (completedDays / durationDays) * 100;
-            progressEl.style.width = percent + '%';
-            progressBarEl.setAttribute('aria-valuenow', completedDays);
-            
-            dayInfoEl.textContent = `Day ${currentDay} of ${durationDays} | ${completedDays} days fully completed`;
+            for(let d=1; d<=durationDays; d++) if(isDayCompleted(d)) completedDays++;
+            els.progress.style.width = (completedDays / durationDays) * 100 + '%';
+            els['day-info'].textContent = `Day ${currentDay} of ${durationDays} | ${completedDays} days fully completed`;
         }
 
-        // Update countdown to June 16, 2025
         function updateCountdown() {
-            const now = new Date();
-            let diff = targetDate - now;
-            
-            if(diff <= 0) {
-                countdownEl.textContent = "🎉 Today is June 16, 2025!";
-                return;
-            }
-            
+            const now = new Date(), diff = targetDate - now;
+            if(diff <= 0) { els.countdown.textContent = "🎉 Today is June 16, 2025!"; return; }
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            countdownEl.innerHTML = 
-                `⏳ Countdown to June 16, 2025: <br><span style="font-size:1.3em">${days}d ${hours}h ${minutes}m ${seconds}s</span>`;
+            els.countdown.innerHTML = `⏳ Countdown to June 16, 2025: <br><span style="font-size:1.3em">${days}d ${hours}h ${minutes}m ${seconds}s</span>`;
         }
-
-        // Initialize countdown timer
-        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
