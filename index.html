@@ -245,15 +245,17 @@
             els['mantra-select'].innerHTML = '<option value="" disabled selected>Select a mantra</option>';
             mantras.forEach(m => {
                 const option = document.createElement('option');
-                option.value = m.id; option.textContent = m.name + (doneMantras[m.id] ? ' (completed)' : '');
-                if(doneMantras[m.id]) option.disabled = true;
+                option.value = m.id;
+                option.textContent = m.name;
+                // Remove the disabled property so mantras can be selected again
                 els['mantra-select'].appendChild(option);
             });
-            if(dailyData.chant && dailyData.chant.mantraId && !doneMantras[dailyData.chant.mantraId]) {
+            
+            if(dailyData.chant && dailyData.chant.mantraId) {
                 els['mantra-select'].value = dailyData.chant.mantraId;
                 updateMantraText(dailyData.chant.mantraId);
                 els['chant-counter'].textContent = `Chants: ${dailyData.chant.count} / 108`;
-                els['chant-button'].disabled = false;
+                els['chant-button'].disabled = dailyData.chant.count >= 108;
             } else {
                 els['mantra-text'].textContent = '';
                 els['chant-counter'].textContent = 'Chants: 0 / 108';
@@ -270,13 +272,16 @@
         function setupEventListeners() {
             els['mantra-select'].addEventListener('change', () => {
                 const selectedId = els['mantra-select'].value;
-                if(doneMantras[selectedId]) return;
                 updateMantraText(selectedId);
                 els['chant-counter'].textContent = 'Chants: 0 / 108';
                 els['chant-button'].disabled = false;
                 els['chant-message'].textContent = '';
-                dailyData.chant = {mantraId: selectedId, count: 0};
-                saveDayData(currentDay, dailyData);
+                
+                // If we're selecting a new mantra, reset the count
+                if (!dailyData.chant || dailyData.chant.mantraId !== selectedId) {
+                    dailyData.chant = {mantraId: selectedId, count: 0};
+                    saveDayData(currentDay, dailyData);
+                }
             });
 
             els['chant-button'].addEventListener('click', () => {
@@ -287,8 +292,6 @@
                 if(dailyData.chant.count >= 108) {
                     els['chant-message'].textContent = `Mantra "${mantras.find(m => m.id === dailyData.chant.mantraId).name}" completed!`;
                     els['chant-button'].disabled = true;
-                    doneMantras[dailyData.chant.mantraId] = true;
-                    localStorage.setItem(CHANT_STORAGE_KEY, JSON.stringify(doneMantras));
                     
                     // Mark chanting as complete in both checklists
                     document.getElementById('monday-step5').checked = true;
@@ -300,7 +303,6 @@
                     dailyData.regularChecklist['regular-step3'] = true;
                     saveDayData(currentDay, dailyData);
                     updateProgress();
-                    initMantraSelect();
                 }
             });
 
